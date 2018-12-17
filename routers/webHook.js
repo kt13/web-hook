@@ -121,7 +121,7 @@ router.get('/:id/allergens', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { website } = req.body;
-  console.log(website);
+  console.log(website, '---------------------------------');
   // const userId = req.user.id;
   //validating input
   // if (!name) {
