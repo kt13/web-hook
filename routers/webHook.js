@@ -28,7 +28,7 @@ router.get('/:id', (req, res, next) => {
     return next(err);
   }
 
-  Food.findOne({_id: id})
+  Hook.findOne({_id: id})
     // .populate('tags')
     .then(result => {
       if (result) {
@@ -121,18 +121,18 @@ router.get('/:id/allergens', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { website } = req.body;
-  console.log(name, ingredients);
-  const userId = req.user.id;
+  console.log(website);
+  // const userId = req.user.id;
   //validating input
-  if (!name) {
-    const err = new Error('Missing `name` in request body');
-    err.status = 400;
-    return next(err);
-  }
+  // if (!name) {
+  //   const err = new Error('Missing `name` in request body');
+  //   err.status = 400;
+  //   return next(err);
+  // }
 
-  const newFood = { name, ingredients, userId };
+  const newHook = { website };
 
-  Food.create(newFood)
+  Hook.create(newHook)
     .then(result => {
       res
         .location(`${req.originalUrl}/${result.id}`)

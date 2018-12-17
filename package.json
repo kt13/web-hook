@@ -1,5 +1,5 @@
 {
-  "name": "thinkful-backend-template",
+  "name": "backend-template",
   "version": "1.0.0",
   "description": "Template for an Express backend",
   "main": "index.js",
@@ -10,15 +10,13 @@
     "heroku": "node index.js",
     "travis": "mocha test/setup.test.js */*.test.js"
   },
-  "author": "Joe Turner <jturner@thinkful.com>",
+  "author": "Kevin Tsang",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.4",
-    "knex": "^0.13.0",
     "mongoose": "^4.13.17",
-    "morgan": "^1.8.2",
-    "pg": "^7.3.0"
+    "morgan": "^1.8.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
