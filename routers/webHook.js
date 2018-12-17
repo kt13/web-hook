@@ -6,11 +6,13 @@ const Hook = require('../db/models/schema');
 //get all with or without searchterm
 const router = express.Router();
 router.get('/', (req, res, next) => {
-  const {searchTerm} = req.query;
+  console.log('making get request');
+  // const {searchTerm} = req.query;
   let filter = {};
 
   Hook.find(filter)
     .then(results => {
+      // console.log(results);
       res.json(results);
     })
     .catch(err => {
@@ -80,56 +82,30 @@ router.get('/:id/allergens', (req, res, next) => {
 });
 
 
-// router.put('/:id/comments', (req, res, next) => {
-//   const { id } = req.params;
-//   const { comments, searchTerm} = req.body;
-//   console.log(comments);
-//   /***** Never trust users - validate input *****/
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     const err = new Error('The `id` is not valid');
-//     err.status = 400;
-//     return next(err);
-//   }
+router.delete('/', (req, res, next) => {
+  const { id } = req.params;
+  const { website } = req.body;
+  console.log(website);
+  /***** Never trust users - validate input *****/
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    const err = new Error('The `id` is not valid');
+    err.status = 400;
+    return next(err);
+  }
 
-//   if (comments.trim() === '') {
-//     const err = new Error('You can not enter in nothing');
-//     err.status = 400;
-//     return next(err);
-//   }
-
-//   const postComment = { comments };
-
-//   Food.findOneAndUpdate({_id: id}, {$push: postComment}, {new: true})
-//     .then(result => {
-//       console.log(result, 'new comment');
-//       if (result) {
-//         Food.find({name: {$in: searchTerm}})
-//           .then(results => {
-//             if(results){
-//               res.json(results);
-//             }
-//           });
-//         // res.json(result);
-//       } else {
-//         next();
-//       }
-//     })
-//     .catch(err => {
-//       next(err);
-//     });
-// });
+  Food.findOneAndDelete({_id: id})
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
 
 router.post('/', (req, res, next) => {
   const { website } = req.body;
   console.log(website, '---------------------------------');
-  // const userId = req.user.id;
-  //validating input
-  // if (!name) {
-  //   const err = new Error('Missing `name` in request body');
-  //   err.status = 400;
-  //   return next(err);
-  // }
-
+ 
   const newHook = { website };
 
   Hook.create(newHook)
