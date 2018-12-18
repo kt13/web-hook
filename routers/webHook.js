@@ -105,6 +105,8 @@ router.get('/:id/allergens', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   const { id } = req.params;
   const { details } = req.body;
+  console.log(details, details.obj);
+  const newObj = details.obj;
   /***** Never trust users - validate input *****/
   // if (!mongoose.Types.ObjectId.isValid(id)) {
   //   const err = new Error('The `id` is not valid');
@@ -118,9 +120,9 @@ router.put('/:id', (req, res, next) => {
   //   return next(err);
   // }
 
-  const updateHook = { details };
+  const updateHook = { 'details': newObj };
 
-  Hook.findOneAndUpdate({_id: id, userId}, updateHook, { new: true })
+  Hook.findOneAndUpdate({_id: id}, updateHook, { new: true })
     .then(result => {
       if (result) {
         res.json(result);
