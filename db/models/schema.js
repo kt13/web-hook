@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // ===== Define UserSchema & UserModel =====
 const webSchema = new mongoose.Schema({
-  website: { type: String, unique: true},
+  details: { type: Object},
 //   name: { type: String, required: true, unique: true },
 });
 

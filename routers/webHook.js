@@ -82,20 +82,51 @@ router.get('/:id/allergens', (req, res, next) => {
 });
 
 
-router.delete('/', (req, res, next) => {
-  const { id } = req.params;
-  const { website } = req.body;
-  console.log(website);
-  /***** Never trust users - validate input *****/
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    const err = new Error('The `id` is not valid');
-    err.status = 400;
-    return next(err);
-  }
+// router.delete('/:id', (req, res, next) => {
+//   const { id } = req.params;
+//   const { website } = req.body;
+//   console.log(website);
+//   /***** Never trust users - validate input *****/
+//   if (!mongoose.Types.ObjectId.isValid(id)) {
+//     const err = new Error('The `id` is not valid');
+//     err.status = 400;
+//     return next(err);
+//   }
 
-  Food.findOneAndDelete({_id: id})
-    .then(() => {
-      res.sendStatus(204);
+//   Food.findOneAndDelete({_id: ObjectId("5c17fdb5b9de661cbc38057a")})
+//     .then(() => {
+//       res.sendStatus(204);
+//     })
+//     .catch(err => {
+//       next(err);
+//     });
+// });
+
+router.put('/:id', (req, res, next) => {
+  const { id } = req.params;
+  const { details } = req.body;
+  /***** Never trust users - validate input *****/
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   const err = new Error('The `id` is not valid');
+  //   err.status = 400;
+  //   return next(err);
+  // }
+
+  // if (name === '') {
+  //   const err = new Error('Missing `name` in request body');
+  //   err.status = 400;
+  //   return next(err);
+  // }
+
+  const updateHook = { details };
+
+  Hook.findOneAndUpdate({_id: id, userId}, updateHook, { new: true })
+    .then(result => {
+      if (result) {
+        res.json(result);
+      } else {
+        next();
+      }
     })
     .catch(err => {
       next(err);
@@ -103,10 +134,10 @@ router.delete('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const { website } = req.body;
-  console.log(website, '---------------------------------');
+  const { details } = req.body;
+  console.log(details, '---------------------------------');
  
-  const newHook = { website };
+  const newHook = { details };
 
   Hook.create(newHook)
     .then(result => {
